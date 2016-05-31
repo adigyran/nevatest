@@ -13,6 +13,7 @@ public final class GPSPathContract {
         public static final String COLUMN_NAME_DATETIME = "datetime";
         public static final String COLUMN_NAME_LAT = "latitude";
         public static final String COLUMN_NAME_LONG = "longitude";
+        //f
 
     }
 }
