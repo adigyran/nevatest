@@ -85,6 +85,7 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
     }
     public void StopRecording(boolean isrecord)
     {
+
         Log.i("Ff", "StopRecording: ");
         if(isrecord)
         {
@@ -118,7 +119,7 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
                 // for ActivityCompat#requestPermissions for more details.
                 return;
             }
-            for(int i = 0;i<2000;i++) {
+            for(int i = 0;i<500000;i++) {
                 Location locationGPS = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                 Location locationNet = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                 if (locationGPS == null) {

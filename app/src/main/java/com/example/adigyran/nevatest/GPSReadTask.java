@@ -23,6 +23,10 @@ public  class GPSReadTask extends AsyncTask<GPSPathDbghelper,Integer,GPSPathlist
 
     }
 
+    public GPSPathlist getGpsreadlist() {
+        return gpsreadlist;
+    }
+
     @Override
     protected GPSPathlist doInBackground(GPSPathDbghelper... params) {
         gpsrdb =  asyngpsread.getReadableDatabase();
