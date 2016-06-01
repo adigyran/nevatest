@@ -159,9 +159,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         int id = item.getItemId();
         switch (id) {
             case R.id.action_start_rec:
-                Tracking.Record(false,mMap);
+                Tracking.Record(true,mMap);
                 return true;
             case R.id.action_stop_rec:
+                Tracking.StopRecording(true);
                 return false;
         }
         return super.onOptionsItemSelected(item);
