@@ -118,21 +118,27 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
                 // for ActivityCompat#requestPermissions for more details.
                 return;
             }
-            Location locationGPS = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            Location locationNet = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-            if (locationGPS == null) {
-                cur_lat = locationNet.getLatitude();
-                cur_long = locationNet.getLongitude();
-            } else {
-                cur_lat = locationGPS.getLatitude();
-                cur_long = locationGPS.getLongitude();
+            for(int i = 0;i<2000;i++) {
+                Location locationGPS = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                Location locationNet = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                if (locationGPS == null) {
+                    cur_lat = locationNet.getLatitude();
+                    cur_long = locationNet.getLongitude();
+                } else {
+                    cur_lat = locationGPS.getLatitude();
+                    cur_long = locationGPS.getLongitude();
+                }
+                GPSPathpoint testpoint = new GPSPathpoint();
+                testpoint.setPointdatetime(new Date());
+                testpoint.setPLatitude(cur_lat);
+                testpoint.setPLongitude(cur_long);
+                if (gpsPathlist == null) {
+                    gpsPathlist = new GPSPathlist();
+                }
+
+                gpsPathlist.addGPSPoint(testpoint);
+                Log.d("nevatest", "doInBackground: "+String.valueOf(i));
             }
-            GPSPathpoint testpoint = new GPSPathpoint();
-            testpoint.setPointdatetime(new Date());
-            testpoint.setPLatitude(cur_lat);
-            testpoint.setPLongitude(cur_long);
-            gpsPathlist = new GPSPathlist();
-            gpsPathlist.addGPSPoint(testpoint);
 
 
             mMap.setMyLocationEnabled(true);
@@ -146,17 +152,17 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
 
             TextView testtext = (TextView) actmaps.findViewById(R.id.textView);
             testtext.setText(String.valueOf(cur_lat + " " + cur_long));
-            final AlertDialog.Builder dlgAlert = new AlertDialog.Builder(actmaps);
-            dlgAlert.setMessage(String.valueOf(cur_lat));
-            dlgAlert.setTitle("App Title");
-            dlgAlert.setPositiveButton("OK", null);
-            dlgAlert.setCancelable(true);
-            dlgAlert.create().show();
-            dlgAlert.setPositiveButton("Ok",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    });
+          //  final AlertDialog.Builder dlgAlert = new AlertDialog.Builder(actmaps);
+           // dlgAlert.setMessage(String.valueOf(cur_lat));
+            //dlgAlert.setTitle("App Title");
+            //dlgAlert.setPositiveButton("OK", null);
+            //dlgAlert.setCancelable(true);
+            //dlgAlert.create().show();
+            //dlgAlert.setPositiveButton("Ok",
+             //       new DialogInterface.OnClickListener() {
+              //          public void onClick(DialogInterface dialog, int which) {
+               //         }
+                //    });
         }
     }
     @Override

@@ -1,6 +1,8 @@
 package com.example.adigyran.nevatest;
 
 import android.content.ContentValues;
+import android.database.DatabaseUtils;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -27,16 +29,28 @@ public  class GPSWriteTask extends AsyncTask<GPSPathDbghelper,Integer,Integer>{
         gpswdb =  asyngpswrite.getWritableDatabase();
         ContentValues values = new ContentValues();
         Log.d("nevatest", "doInBackground: "+String.valueOf(gpswritelist.getGPSPoints().size()));
-        long newRowId;
+        long newRowId = 0;
         gpswdb.beginTransaction();
-        for (GPSPathpoint wrtpoint :gpswritelist.getGPSPoints()) {
-            Log.d("nevatest", "doInBackground: "+String.valueOf(wrtpoint.getPointdatetime()));
-            values.put(GPSPathContract.GPSPathEntry.COLUMN_NAME_DATETIME, String.valueOf(wrtpoint.getPointdatetime()));
-            values.put(GPSPathContract.GPSPathEntry.COLUMN_NAME_LAT, wrtpoint.getPLatitude());
-            values.put(GPSPathContract.GPSPathEntry.COLUMN_NAME_LONG, wrtpoint.getPLongitude());
-            newRowId = gpswdb.insert(TABLE_NAME,null,values);
+        try {
+
+            for (GPSPathpoint wrtpoint : gpswritelist.getGPSPoints()) {
+                Log.d("nevatest", "doInBackground: " + String.valueOf(wrtpoint.getPointdatetime()));
+                values.put(GPSPathContract.GPSPathEntry.COLUMN_NAME_DATETIME, String.valueOf(wrtpoint.getPointdatetime()));
+                values.put(GPSPathContract.GPSPathEntry.COLUMN_NAME_LAT, wrtpoint.getPLatitude());
+                values.put(GPSPathContract.GPSPathEntry.COLUMN_NAME_LONG, wrtpoint.getPLongitude());
+                newRowId = gpswdb.insert(TABLE_NAME, null, values);
+            }
+            gpswdb.setTransactionSuccessful();
         }
-        gpswdb.endTransaction();
+        catch (SQLException e)
+        {
+
+        }
+        finally {
+            gpswdb.endTransaction();
+        }
+
+        Log.d("nevatest", "doInBackground: "+String.valueOf(newRowId));
 
         return null;
     }
@@ -45,6 +59,7 @@ public  class GPSWriteTask extends AsyncTask<GPSPathDbghelper,Integer,Integer>{
 
     @Override
     protected void onPostExecute(Integer integer) {
+        gpswdb.close();
         super.onPostExecute(integer);
     }
 
