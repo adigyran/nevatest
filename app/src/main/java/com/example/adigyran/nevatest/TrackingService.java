@@ -15,6 +15,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -84,14 +85,20 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
     }
     public void StopRecording(boolean isrecord)
     {
+        Log.i("Ff", "StopRecording: ");
         if(isrecord)
         {
             isrecord=false;
-            if(!(gpsPathlist==null))
-            {
-                GPSPathDbghelper helper = new GPSPathDbghelper(getApplicationContext());
-                GPSWriteTask testwr = new GPSWriteTask(helper,gpsPathlist);
-                testwr.execute();
+            if(!(gpsPathlist==null)) {
+                if (!(gpsPathlist.getGPSPoints() == null)) {
+                    TextView testtext = (TextView) actmaps.findViewById(R.id.textView);
+                    testtext.setText(String.valueOf(gpsPathlist.getGPSPoints().size()));
+                    Log.d("nevatest", "doInBackground: " + String.valueOf(gpsPathlist.getGPSPoints().size()));
+                    GPSPathDbghelper helper = new GPSPathDbghelper(getApplicationContext());
+                    GPSWriteTask testwr = new GPSWriteTask(helper, gpsPathlist);
+
+                    testwr.execute();
+                }
             }
     }
     }

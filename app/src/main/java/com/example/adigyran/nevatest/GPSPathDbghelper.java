@@ -19,7 +19,7 @@ public class GPSPathDbghelper extends SQLiteOpenHelper {
                     GPSPathContract.GPSPathEntry.COLUMN_NAME_ENTRY_ID + TEXT_TYPE + COMMA_SEP +
                     GPSPathContract.GPSPathEntry.COLUMN_NAME_DATETIME + DATETIME_TYPE + COMMA_SEP +
                     GPSPathContract.GPSPathEntry.COLUMN_NAME_LAT + DOUBLE_TYPE + COMMA_SEP +
-                    GPSPathContract.GPSPathEntry.COLUMN_NAME_LONG + DOUBLE_TYPE + COMMA_SEP+")";
+                    GPSPathContract.GPSPathEntry.COLUMN_NAME_LONG + DOUBLE_TYPE +")";
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + GPSPathContract.GPSPathEntry.TABLE_NAME;
