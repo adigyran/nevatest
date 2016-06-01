@@ -25,11 +25,16 @@ public  class GPSWriteTask extends AsyncTask<GPSPathDbghelper,Integer,Integer>{
     protected Integer doInBackground(GPSPathDbghelper... params) {
         gpswdb =  asyngpswrite.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(GPSPathContract.GPSPathEntry.COLUMN_NAME_DATETIME, String.valueOf(gpswritelist.getGPSPoints().get(0).getPointdatetime()));
-        values.put(GPSPathContract.GPSPathEntry.COLUMN_NAME_LAT,gpswritelist.getGPSPoints().get(0).getPLatitude());
-        values.put(GPSPathContract.GPSPathEntry.COLUMN_NAME_LONG,gpswritelist.getGPSPoints().get(0).getPLongitude());
         long newRowId;
-        newRowId = gpswdb.insert(TABLE_NAME,null,values);
+        gpswdb.beginTransaction();
+        for (GPSPathpoint wrtpoint :gpswritelist.getGPSPoints()) {
+            values.put(GPSPathContract.GPSPathEntry.COLUMN_NAME_DATETIME, String.valueOf(wrtpoint.getPointdatetime()));
+            values.put(GPSPathContract.GPSPathEntry.COLUMN_NAME_LAT, wrtpoint.getPLatitude());
+            values.put(GPSPathContract.GPSPathEntry.COLUMN_NAME_LONG, wrtpoint.getPLongitude());
+            newRowId = gpswdb.insert(TABLE_NAME,null,values);
+        }
+        gpswdb.endTransaction();
+
         return null;
     }
 

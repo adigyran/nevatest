@@ -29,7 +29,7 @@ import java.util.Date;
 
 public class TrackingService extends Service implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private final IBinder TRKBinder = new LocalBinder();
-
+    private  GPSPathlist gpsPathlist;
     private GoogleApiClient mGoogleApiClient = null;
     MapsActivity actmaps;
 
@@ -82,64 +82,75 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
             return TrackingService.this;
         }
     }
-
+    public void StopRecording(boolean isrecord)
+    {
+        if(isrecord)
+        {
+            isrecord=false;
+            if(!(gpsPathlist==null))
+            {
+                GPSPathDbghelper helper = new GPSPathDbghelper(getApplicationContext());
+                GPSWriteTask testwr = new GPSWriteTask(helper,gpsPathlist);
+                testwr.execute();
+            }
+    }
+    }
     public void Record(boolean isrecord, GoogleMap mMap) {
         double cur_lat = 0;
         double cur_long = 0;
+        if(isrecord) {
+            LocationManager mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        LocationManager mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+            Location locationGPS = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            Location locationNet = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            if (locationGPS == null) {
+                cur_lat = locationNet.getLatitude();
+                cur_long = locationNet.getLongitude();
+            } else {
+                cur_lat = locationGPS.getLatitude();
+                cur_long = locationGPS.getLongitude();
+            }
+            GPSPathpoint testpoint = new GPSPathpoint();
+            testpoint.setPointdatetime(new Date());
+            testpoint.setPLatitude(cur_lat);
+            testpoint.setPLongitude(cur_long);
+            gpsPathlist = new GPSPathlist();
+            gpsPathlist.addGPSPoint(testpoint);
 
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
+
+            mMap.setMyLocationEnabled(true);
+
+            mGoogleApiClient.connect();
+
+
+            LatLng cur = new LatLng(cur_lat, cur_long);
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(cur));
+
+
+            TextView testtext = (TextView) actmaps.findViewById(R.id.textView);
+            testtext.setText(String.valueOf(cur_lat + " " + cur_long));
+            final AlertDialog.Builder dlgAlert = new AlertDialog.Builder(actmaps);
+            dlgAlert.setMessage(String.valueOf(cur_lat));
+            dlgAlert.setTitle("App Title");
+            dlgAlert.setPositiveButton("OK", null);
+            dlgAlert.setCancelable(true);
+            dlgAlert.create().show();
+            dlgAlert.setPositiveButton("Ok",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
         }
-        Location locationGPS = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        Location locationNet = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        if (locationGPS == null)
-        {
-            cur_lat = locationNet.getLatitude();
-        cur_long = locationNet.getLongitude();
-        }
-        else
-        {
-            cur_lat = locationGPS.getLatitude();
-            cur_long = locationGPS.getLongitude();
-        }
-        GPSPathpoint testpoint = new GPSPathpoint();
-        testpoint.setPointdatetime(new Date());
-        testpoint.setPLatitude(cur_lat);
-        testpoint.setPLongitude(cur_long);
-
-
-
-        mMap.setMyLocationEnabled(true);
-
-        mGoogleApiClient.connect();
-
-
-         LatLng cur = new LatLng(cur_lat,cur_long);
-         mMap.moveCamera(CameraUpdateFactory.newLatLng(cur));
-
-
-       TextView testtext =   (TextView)actmaps.findViewById(R.id.textView);
-        testtext.setText(String.valueOf(cur_lat+" "+cur_long));
-        final AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(actmaps);
-        dlgAlert.setMessage(String.valueOf(cur_lat));
-        dlgAlert.setTitle("App Title");
-        dlgAlert.setPositiveButton("OK", null);
-        dlgAlert.setCancelable(true);
-        dlgAlert.create().show();
-        dlgAlert.setPositiveButton("Ok",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
     }
     @Override
     public void onCreate() {
