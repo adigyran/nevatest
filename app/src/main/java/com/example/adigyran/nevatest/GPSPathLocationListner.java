@@ -4,6 +4,10 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.Date;
 
 /**
@@ -13,6 +17,16 @@ public class GPSPathLocationListner implements LocationListener {
 
     private GPSPathlist loclistpl = null;
     private boolean recording = false;
+    private GoogleMap lmMap = null;
+
+    public GoogleMap getLmMap() {
+        return lmMap;
+    }
+
+    public void setLmMap(GoogleMap lmMap) {
+        this.lmMap = lmMap;
+    }
+
     public GPSPathLocationListner() {
 
     }
@@ -44,6 +58,12 @@ public class GPSPathLocationListner implements LocationListener {
                 testpoint.setPLatitude(location.getLatitude());
                 testpoint.setPLongitude(location.getLongitude());
                 loclistpl.addGPSPoint(testpoint);
+
+                if(!(lmMap==null)) {
+                    LatLng cur = new LatLng(location.getLatitude(), location.getLongitude());
+
+                    lmMap.moveCamera(CameraUpdateFactory.newLatLng(cur));
+                }
 
             }
         }

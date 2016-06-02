@@ -163,40 +163,43 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
             if(gpsPathLocationListner==null) {
                 gpsPathLocationListner = new GPSPathLocationListner();
             }
+            mMap.setMyLocationEnabled(true);
+
+            mGoogleApiClient.connect();
+            gpsPathLocationListner.setLmMap(mMap);
             gpsPathLocationListner.setLoclistpl(gpsPathlist);
             gpsPathLocationListner.setRecording(isrecord);
             LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 35000, 10, gpsPathLocationListner);
-                if (locationGPS == null) {
-                    cur_lat = locationNet.getLatitude();
-                    cur_long = locationNet.getLongitude();
-                } else {
-                    cur_lat = locationGPS.getLatitude();
-                    cur_long = locationGPS.getLongitude();
-                }
-                GPSPathpoint testpoint = new GPSPathpoint();
-                testpoint.setPointdatetime(new Date());
-                testpoint.setPLatitude(cur_lat);
-                testpoint.setPLongitude(cur_long);
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 35000, 1, gpsPathLocationListner);
+                //if (locationGPS == null) {
+                 //   cur_lat = locationNet.getLatitude();
+                //    cur_long = locationNet.getLongitude();
+               // } else {
+                 //   cur_lat = locationGPS.getLatitude();
+                //    cur_long = locationGPS.getLongitude();
+               // }
+               // GPSPathpoint testpoint = new GPSPathpoint();
+              //  testpoint.setPointdatetime(new Date());
+            //    testpoint.setPLatitude(cur_lat);
+             //   testpoint.setPLongitude(cur_long);
 
 
-                gpsPathlist.addGPSPoint(testpoint);
+               // gpsPathlist.addGPSPoint(testpoint);
                 //Log.d("nevatest", "doInBackground: "+String.valueOf(i));
 
 
 
-            mMap.setMyLocationEnabled(true);
-
-            mGoogleApiClient.connect();
 
 
-            LatLng cur = new LatLng(cur_lat, cur_long);
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(cur));
+           // if(!(gpsPathlist.getGPSPoints()==null)) {
+            //    LatLng cur = new LatLng(gpsPathlist.getGPSPoints().get(gpsPathlist.getGPSPoints().size() - 1).getPLatitude(), gpsPathlist.getGPSPoints().get(gpsPathlist.getGPSPoints().size() - 1).getPLongitude());
+            //    mMap.moveCamera(CameraUpdateFactory.newLatLng(cur));
 
 
-            TextView testtext = (TextView) actmaps.findViewById(R.id.textView);
-            testtext.setText(String.valueOf(cur_lat + " " + cur_long));
+           //     TextView testtext = (TextView) actmaps.findViewById(R.id.textView);
+             //   testtext.setText(String.valueOf(cur_lat + " " + cur_long));
+           // }
           //  final AlertDialog.Builder dlgAlert = new AlertDialog.Builder(actmaps);
            // dlgAlert.setMessage(String.valueOf(cur_lat));
             //dlgAlert.setTitle("App Title");
