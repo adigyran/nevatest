@@ -32,6 +32,10 @@ public  class GPSReadTask extends AsyncTask<GPSPathDbghelper,Integer,GPSPathlist
 
     @Override
     protected GPSPathlist doInBackground(GPSPathDbghelper... params) {
+        if(gpsreadlist==null)
+        {
+            gpsreadlist = new GPSPathlist();
+        }
         Cursor c = null;
         Log.d("nevatest", "doInBackground: Readbasetest");
         try {
@@ -56,6 +60,13 @@ public  class GPSReadTask extends AsyncTask<GPSPathDbghelper,Integer,GPSPathlist
             );
             while (c.moveToNext()) {
                 Log.d("nevatest", "doInBackground: " + String.valueOf(c.getString(c.getColumnIndex(GPSPathContract.GPSPathEntry.COLUMN_NAME_DATETIME))));
+                GPSPathpoint temppoint = new GPSPathpoint();
+                temppoint.setId(c.getInt(c.getColumnIndex(GPSPathContract.GPSPathEntry._ID)));
+                temppoint.setPLatitude(c.getDouble(c.getColumnIndex(GPSPathContract.GPSPathEntry.COLUMN_NAME_LAT)));
+                temppoint.setPLongitude(c.getDouble(c.getColumnIndex(GPSPathContract.GPSPathEntry.COLUMN_NAME_LONG)));
+                gpsreadlist.addGPSPoint(temppoint);
+                //gpsreadlist.addGPSPoint(new GPSPathpoint().setId(c.getInt(c.getColumnIndex(GPSPathContract.GPSPathEntry._ID))));
+
 
 
             }
