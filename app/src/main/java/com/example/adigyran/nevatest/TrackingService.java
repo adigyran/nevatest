@@ -149,6 +149,7 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
 
                 Location locationGPS = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                 Location locationNet = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
                 if (locationGPS == null) {
                     cur_lat = locationNet.getLatitude();
                     cur_long = locationNet.getLongitude();
