@@ -2,8 +2,10 @@ package com.example.adigyran.nevatest;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import static com.example.adigyran.nevatest.GPSPathContract.GPSPathEntry.TABLE_NAME;
 
@@ -29,25 +31,44 @@ public  class GPSReadTask extends AsyncTask<GPSPathDbghelper,Integer,GPSPathlist
 
     @Override
     protected GPSPathlist doInBackground(GPSPathDbghelper... params) {
-        gpsrdb =  asyngpsread.getReadableDatabase();
-        String[] projection = {
-                GPSPathContract.GPSPathEntry._ID,
-                GPSPathContract.GPSPathEntry.COLUMN_NAME_DATETIME,
-                GPSPathContract.GPSPathEntry.COLUMN_NAME_LAT,
-                GPSPathContract.GPSPathEntry.COLUMN_NAME_LONG};
-        String sortOrder =
-                GPSPathContract.GPSPathEntry.COLUMN_NAME_DATETIME + " DESC";
-        String selection = null;
-        String[] selectionArgs = null;
-        Cursor c = gpsrdb.query(
-                GPSPathContract.GPSPathEntry.TABLE_NAME,  // The table to query
-                projection,                               // The columns to return
-                selection,                                // The columns for the WHERE clause
-                selectionArgs,                            // The values for the WHERE clause
-                null,                                     // don't group the rows
-                null,                                     // don't filter by row groups
-                sortOrder                                 // The sort order
-        );
+        Cursor c = null;
+        Log.d("nevatest", "doInBackground: Readbasetest");
+        try {
+            gpsrdb = asyngpsread.getReadableDatabase();
+            String[] projection = {
+                    GPSPathContract.GPSPathEntry._ID,
+                    GPSPathContract.GPSPathEntry.COLUMN_NAME_DATETIME,
+                    GPSPathContract.GPSPathEntry.COLUMN_NAME_LAT,
+                    GPSPathContract.GPSPathEntry.COLUMN_NAME_LONG};
+            String sortOrder =
+                    GPSPathContract.GPSPathEntry.COLUMN_NAME_DATETIME + " DESC";
+            String selection = null;
+            String[] selectionArgs = null;
+            c = gpsrdb.query(
+                    GPSPathContract.GPSPathEntry.TABLE_NAME,  // The table to query
+                    projection,                               // The columns to return
+                    null,                                // The columns for the WHERE clause
+                    null,                            // The values for the WHERE clause
+                    null,                                     // don't group the rows
+                    null,                                     // don't filter by row groups
+                    sortOrder                                 // The sort order
+            );
+            while (c.moveToNext()) {
+                Log.d("nevatest", "doInBackground: " + String.valueOf(c.getString(c.getColumnIndex(GPSPathContract.GPSPathEntry.COLUMN_NAME_DATETIME))));
+
+
+            }
+        }
+        catch (SQLException e)
+        {
+
+        }
+        finally {
+            c.close();
+            gpsrdb.close();
+        }
+
+
         return null;
     }
 

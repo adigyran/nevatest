@@ -83,6 +83,11 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
             return TrackingService.this;
         }
     }
+    public void Play()
+    {
+        GPSPathDbghelper helper = new GPSPathDbghelper(getApplicationContext());
+        GPSReadTask testrd = new GPSReadTask(helper,gpsPathlist);
+    }
     public void StopRecording(boolean isrecord)
     {
 
@@ -119,7 +124,7 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
                 // for ActivityCompat#requestPermissions for more details.
                 return;
             }
-            for(int i = 0;i<500000;i++) {
+            for(int i = 0;i<5000;i++) {
                 Location locationGPS = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                 Location locationNet = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                 if (locationGPS == null) {

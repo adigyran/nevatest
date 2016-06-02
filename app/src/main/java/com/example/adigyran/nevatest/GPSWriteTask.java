@@ -51,7 +51,7 @@ public  class GPSWriteTask extends AsyncTask<GPSPathDbghelper,Integer,Integer>{
         }
 
         Log.d("nevatest", "doInBackground: "+String.valueOf(newRowId));
-
+        gpswdb.close();
         return null;
     }
 
