@@ -106,6 +106,7 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
         this.mMap = mMap;
         GPSPathDbghelper helper = new GPSPathDbghelper(getApplicationContext());
         GPSReadTask testrd = new GPSReadTask(helper,gpsPathlist);
+        testrd.delegate = this;
         testrd.execute();
     }
     public void StopRecording(boolean isrecord)
@@ -145,7 +146,7 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
                 // for ActivityCompat#requestPermissions for more details.
                 return;
             }
-            for(int i = 0;i<5000;i++) {
+
                 Location locationGPS = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                 Location locationNet = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                 if (locationGPS == null) {
@@ -164,8 +165,8 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
                 }
 
                 gpsPathlist.addGPSPoint(testpoint);
-                Log.d("nevatest", "doInBackground: "+String.valueOf(i));
-            }
+                //Log.d("nevatest", "doInBackground: "+String.valueOf(i));
+
 
 
             mMap.setMyLocationEnabled(true);

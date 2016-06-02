@@ -4,5 +4,6 @@
     <string name="action_start_rec">Запись</string>
     <string name="action_stop_rec">Стоп</string>
     <string name="action_play_rec">Воспроизведение</string>
+    <string name="action_remove_base">Очистить базу</string>
 
 </resources>

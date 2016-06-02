@@ -167,6 +167,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             case R.id.action_play_rec:
                 Tracking.Play(mMap);
                 return true;
+            case R.id.action_remove_base:
+               this.deleteDatabase(GPSPathDbghelper.DATABASE_NAME);
+                return true;
 
         }
         return super.onOptionsItemSelected(item);
