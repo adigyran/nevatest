@@ -36,6 +36,8 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
     private GoogleApiClient mGoogleApiClient = null;
     private GoogleMap mMap = null;
     MapsActivity actmaps;
+    GPSPathLocationListner gpsPathLocationListner = null;
+
 
 
     public TrackingService() {
@@ -116,6 +118,12 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
         if(isrecord)
         {
             isrecord=false;
+            if(!(gpsPathLocationListner==null))
+            {
+                gpsPathLocationListner.setRecording(false);
+                gpsPathlist=gpsPathLocationListner.getLoclistpl();
+
+            }
             if(!(gpsPathlist==null)) {
                 if (!(gpsPathlist.getGPSPoints() == null)) {
                     TextView testtext = (TextView) actmaps.findViewById(R.id.textView);
@@ -123,7 +131,7 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
                     Log.d("nevatest", "doInBackground: " + String.valueOf(gpsPathlist.getGPSPoints().size()));
                     GPSPathDbghelper helper = new GPSPathDbghelper(getApplicationContext());
                     GPSWriteTask testwr = new GPSWriteTask(helper, gpsPathlist);
-
+                    gpsPathlist.removeGPSPoints(gpsPathlist.getGPSPoints());
                     testwr.execute();
                 }
             }
@@ -147,9 +155,19 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
                 return;
             }
 
+            if (gpsPathlist == null) {
+                gpsPathlist = new GPSPathlist();
+            }
                 Location locationGPS = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                 Location locationNet = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            if(gpsPathLocationListner==null) {
+                gpsPathLocationListner = new GPSPathLocationListner();
+            }
+            gpsPathLocationListner.setLoclistpl(gpsPathlist);
+            gpsPathLocationListner.setRecording(isrecord);
+            LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 35000, 10, gpsPathLocationListner);
                 if (locationGPS == null) {
                     cur_lat = locationNet.getLatitude();
                     cur_long = locationNet.getLongitude();
@@ -161,9 +179,7 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
                 testpoint.setPointdatetime(new Date());
                 testpoint.setPLatitude(cur_lat);
                 testpoint.setPLongitude(cur_long);
-                if (gpsPathlist == null) {
-                    gpsPathlist = new GPSPathlist();
-                }
+
 
                 gpsPathlist.addGPSPoint(testpoint);
                 //Log.d("nevatest", "doInBackground: "+String.valueOf(i));
