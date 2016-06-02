@@ -17,6 +17,7 @@ public  class GPSReadTask extends AsyncTask<GPSPathDbghelper,Integer,GPSPathlist
     private GPSPathDbghelper asyngpsread =null;
     private SQLiteDatabase gpsrdb = null;
     private GPSPathlist gpsreadlist = null;
+    public AsyncResponse delegate = null;
 
     public GPSReadTask(GPSPathDbghelper asyngpswrite, GPSPathlist inptlist) {
        // asyngpswrite = null;
@@ -69,12 +70,14 @@ public  class GPSReadTask extends AsyncTask<GPSPathDbghelper,Integer,GPSPathlist
         }
 
 
-        return null;
+        return gpsreadlist;
     }
 
 
-
-
+    @Override
+    protected void onPostExecute(GPSPathlist gpsPathlist) {
+        delegate.processFinish(gpsPathlist);
+    }
 
     @Override
     protected void onProgressUpdate(Integer... values) {

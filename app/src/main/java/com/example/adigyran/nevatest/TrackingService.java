@@ -25,13 +25,16 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Date;
 
-public class TrackingService extends Service implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class TrackingService extends Service implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, AsyncResponse {
     private final IBinder TRKBinder = new LocalBinder();
     private  GPSPathlist gpsPathlist;
     private GoogleApiClient mGoogleApiClient = null;
+    private GoogleMap mMap = null;
     MapsActivity actmaps;
 
 
@@ -77,16 +80,33 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
         this.actmaps = actmaps;
     }
 
+    @Override
+    public void processFinish(GPSPathlist output) {
+        if(!(output==null)&&!(mMap==null))
+        {
+            if(!(output.getGPSPoints()==null))
+            {
+                for(GPSPathpoint pointr:output.getGPSPoints())
+                {
+                    LatLng mark = new LatLng(pointr.getPLatitude(),pointr.getPLongitude());
+                    Marker markerw = mMap.addMarker(new MarkerOptions().position(mark).draggable(false));
+                }
+            }
+        }
+    }
+
     public class LocalBinder extends Binder {
         TrackingService getService() {
             // Return this instance of LocalService so clients can call public methods
             return TrackingService.this;
         }
     }
-    public void Play()
+    public void Play(GoogleMap mMap)
     {
+        this.mMap = mMap;
         GPSPathDbghelper helper = new GPSPathDbghelper(getApplicationContext());
         GPSReadTask testrd = new GPSReadTask(helper,gpsPathlist);
+        testrd.execute();
     }
     public void StopRecording(boolean isrecord)
     {
@@ -109,6 +129,7 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
     }
     }
     public void Record(boolean isrecord, GoogleMap mMap) {
+        this.mMap = mMap;
         double cur_lat = 0;
         double cur_long = 0;
         if(isrecord) {

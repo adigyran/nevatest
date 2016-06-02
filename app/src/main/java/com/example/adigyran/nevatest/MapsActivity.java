@@ -165,7 +165,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Tracking.StopRecording(true);
                 return true;
             case R.id.action_play_rec:
-                Tracking.Play();
+                Tracking.Play(mMap);
                 return true;
 
         }
