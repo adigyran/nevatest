@@ -131,7 +131,7 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
                     Log.d("nevatest", "doInBackground: " + String.valueOf(gpsPathlist.getGPSPoints().size()));
                     GPSPathDbghelper helper = new GPSPathDbghelper(getApplicationContext());
                     GPSWriteTask testwr = new GPSWriteTask(helper, gpsPathlist);
-                    gpsPathlist.removeGPSPoints(gpsPathlist.getGPSPoints());
+                    //gpsPathlist.removeGPSPoints(gpsPathlist.getGPSPoints());
                     testwr.execute();
                 }
             }
@@ -169,6 +169,7 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
             gpsPathLocationListner.setLmMap(mMap);
             gpsPathLocationListner.setLoclistpl(gpsPathlist);
             gpsPathLocationListner.setRecording(isrecord);
+            gpsPathLocationListner.setActmapsl(actmaps);
             LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 35000, 1, gpsPathLocationListner);
