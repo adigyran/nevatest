@@ -1,6 +1,7 @@
 package com.example.adigyran.nevatest;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,6 +17,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -28,6 +30,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class TrackingService extends Service implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, AsyncResponse {
@@ -235,6 +238,21 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
             {
                 if(!(gpsPathlistR.getGPSPoints()==null))
                 {
+                    ArrayList<String> pointdates = null;
+                    for(GPSPathpoint readpoint:gpsPathlistR.getGPSPoints())
+                    {
+                        pointdates.add(GPSPathutility.DateToString(readpoint.getPointdatetime()));
+                    }
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                            android.R.layout.simple_list_item_1, pointdates);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(actmaps);
+                    builder.setTitle("Choose first date").setAdapter(adapter,new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // The 'which' argument contains the index position
+                            // of the selected item
+                        }
+                    });
+
 
                 }
             }
