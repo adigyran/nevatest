@@ -11,6 +11,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.vision.text.Text;
 
 import java.util.Date;
 
@@ -24,6 +25,15 @@ public class GPSPathLocationListner implements LocationListener {
     private GoogleMap lmMap = null;
     private String TAG ="nevatest";
     private MapsActivity actmapsl = null;
+    private TextView coordtext = null;
+
+    public TextView getCoordtext() {
+        return coordtext;
+    }
+
+    public void setCoordtext(TextView coordtext) {
+        this.coordtext = coordtext;
+    }
 
     public MapsActivity getActmapsl() {
         return actmapsl;
@@ -78,8 +88,9 @@ public class GPSPathLocationListner implements LocationListener {
                 if(!(lmMap==null)) {
                     LatLng cur = new LatLng(location.getLatitude(), location.getLongitude());
                    // TextView testtext = (TextView) actmapsl.findViewById(R.id.textView);
-                    Log.d("nevatest", "onLocationChanged: "+String.valueOf(location.getLatitude() + " " + location.getLatitude()+" "+location.getAccuracy()+" "+location.getSpeed()));
+                    Log.d("nevatest", "onLocationChanged: "+String.valueOf(location.getLatitude() + " " + location.getLongitude()+" "+location.getAccuracy()+" "+location.getSpeed()));
                     lmMap.moveCamera(CameraUpdateFactory.newLatLng(cur));
+                    coordtext.setText(String.valueOf(location.getLatitude() + " " + location.getLongitude()));
                     LatLng mark = new LatLng(location.getLatitude(),location.getLongitude());
                     Marker markerw = lmMap.addMarker(new MarkerOptions().position(mark).draggable(false));
                 }

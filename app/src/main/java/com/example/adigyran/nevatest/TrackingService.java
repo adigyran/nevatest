@@ -167,9 +167,12 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
             }
             mMap.setMyLocationEnabled(true);
 
+             TextView testtext = (TextView) actmaps.findViewById(R.id.textView);
+            //   testtext.setText(String.valueOf(cur_lat + " " + cur_long));
             mGoogleApiClient.connect();
             gpsPathLocationListner.setLmMap(mMap);
             gpsPathLocationListner.setLoclistpl(gpsPathlist);
+            gpsPathLocationListner.setCoordtext(testtext);
             gpsPathLocationListner.setRecording(isrecord);
             gpsPathLocationListner.setActmapsl(actmaps);
             LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);

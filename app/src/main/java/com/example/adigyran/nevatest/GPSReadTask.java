@@ -64,6 +64,8 @@ public  class GPSReadTask extends AsyncTask<GPSPathDbghelper,Integer,GPSPathlist
                 temppoint.setId(c.getInt(c.getColumnIndex(GPSPathContract.GPSPathEntry._ID)));
                 temppoint.setPLatitude(c.getDouble(c.getColumnIndex(GPSPathContract.GPSPathEntry.COLUMN_NAME_LAT)));
                 temppoint.setPLongitude(c.getDouble(c.getColumnIndex(GPSPathContract.GPSPathEntry.COLUMN_NAME_LONG)));
+
+               temppoint.setPointdatetime(GPSPathutility.StringToDate(c.getString(c.getColumnIndex(GPSPathContract.GPSPathEntry.COLUMN_NAME_DATETIME))));
                 gpsreadlist.addGPSPoint(temppoint);
                 //gpsreadlist.addGPSPoint(new GPSPathpoint().setId(c.getInt(c.getColumnIndex(GPSPathContract.GPSPathEntry._ID))));
 
