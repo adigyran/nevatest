@@ -41,7 +41,9 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
     private GoogleApiClient mGoogleApiClient = null;
     private GoogleMap mMap = null;
     MapsActivity actmaps;
-
+    GPSPathpoint firstpoints =null;
+    GPSPathpoint secondpoints =null;
+    List<String> pointdates = null;
     boolean pointsloaded = false;
     GPSPathLocationListner gpsPathLocationListner = null;
 
@@ -232,6 +234,46 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
         }
     }
 
+    public void Chosenfirst(int chosenn)
+    {
+        if(!(pointdates==null)) {
+            actmaps.pointdatachoose(pointdates, "Choose second point", false);
+
+            if (!(chosenn == -1)) {
+                try {
+                    firstpoints = new GPSPathpoint();
+                    firstpoints.setPointdatetime(GPSPathutility.StringToDate(pointdates.get(chosenn)));
+                } catch (NullPointerException e) {
+
+                }
+
+            }
+        }
+    }
+    public void Chosensecond(int chosenn)
+    {
+        if(!(pointdates==null)) {
+
+
+            if (!(chosenn == -1)) {
+                try {
+                    secondpoints = new GPSPathpoint();
+                    secondpoints.setPointdatetime(GPSPathutility.StringToDate(pointdates.get(chosenn)));
+                } catch (NullPointerException e) {
+
+                }
+
+            }
+           if(!(firstpoints==null) && !(secondpoints==null)) {
+               GPSPathlist testlist = new GPSPathlist();
+               testlist.setGPSPoints(gpsPathlistR.getrange(firstpoints, secondpoints));
+               for (GPSPathpoint readpoint : testlist.getGPSPoints()) {
+                   Log.d("nevatest", "TimeChooseDialog: " + GPSPathutility.DateToString(readpoint.getPointdatetime()));
+
+               }
+           }
+        }
+    }
     public void TimeChooseDialog()
     {
         if(pointsloaded)
@@ -240,14 +282,48 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
             {
                 if(!(gpsPathlistR.getGPSPoints()==null))
                 {
-                    List<String> pointdates = new ArrayList<String>();
+                    pointdates = new ArrayList<String>();
                     Log.d("nevatest", "doInBackground: " + String.valueOf(gpsPathlistR.getGPSPoints().size()));
                     for(GPSPathpoint readpoint:gpsPathlistR.getGPSPoints())
                     {
                         Log.d("nevatest", "TimeChooseDialog: "+GPSPathutility.DateToString(readpoint.getPointdatetime()));
                         pointdates.add(GPSPathutility.DateToString(readpoint.getPointdatetime()));
                     }
-                    int chosen =  actmaps.Firstpointchoose(pointdates);
+
+                    actmaps.pointdatachoose(pointdates,"Choose first point",true);
+                    //int chosenf =  actmaps.pointdatachoose(pointdates,"Choose first point");
+                   // int chosens = actmaps.pointdatachoose(pointdates,"Choose second point");
+                    //if(!(chosenf==-1))
+                   // {
+                     //   try{
+                      //  firstpoints = new GPSPathpoint();
+                       //     firstpoints.setPointdatetime(GPSPathutility.StringToDate(pointdates.get(chosenf)));
+                       // }
+                       // catch (NullPointerException e)
+                       // {
+
+                   //     }
+
+                    //}
+                   // if(!(chosens==-1))
+                   // {
+                    //    try{
+                     //       secondpoints = new GPSPathpoint();
+                    //        secondpoints.setPointdatetime(GPSPathutility.StringToDate(pointdates.get(chosens)));
+                     //   }
+                     //   catch (NullPointerException e)
+                     //   {
+
+                      //  }
+
+                    //}
+                   // if(!(firstpoints==null) && !(secondpoints==null)){
+                   // GPSPathlist testlist = new GPSPathlist();
+                   // testlist.setGPSPoints(gpsPathlistR.getrange(firstpoints, secondpoints));
+                   // for (GPSPathpoint readpoint : testlist.getGPSPoints()) {
+                   //     Log.d("nevatest", "TimeChooseDialog: " + GPSPathutility.DateToString(readpoint.getPointdatetime()));
+                        // pointdates.add(GPSPathutility.DateToString(readpoint.getPointdatetime()));
+                   // }
 
 
                 }

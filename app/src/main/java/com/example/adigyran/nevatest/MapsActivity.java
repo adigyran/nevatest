@@ -146,23 +146,37 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onConnectionSuspended(int i) {
 
     }
-    public int firstpoint =-1;
-    public int Firstpointchoose(List<String> inptlist)
+    public int chosenpoint =-1;
+    public int pointdatachoose(List<String> inptlist,String titlet,boolean frist)
     {
         //int chosen = -1;
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, inptlist);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this.getApplicationContext());
-        builder.setTitle("Choose first date").setAdapter(adapter,new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                // The 'which' argument contains the index position
-                // of the selected item
-               firstpoint =which;
-            }
-        });
+        AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
+        if(frist) {
+            builder.setTitle(titlet).setAdapter(adapter, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    // The 'which' argument contains the index position
+                    // of the selected item
+                    Tracking.Chosenfirst(which);
+                }
+            });
+        }
+        else
+        {
+            builder.setTitle(titlet).setAdapter(adapter, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    // The 'which' argument contains the index position
+                    // of the selected item
+                    Tracking.Chosensecond(which);
+                }
+            });
+        }
         builder.create().show();
-        return firstpoint;
+        return chosenpoint;
     }
+    public int secondpoint =-1;
+
     private void startstoprec(boolean start){
 
         if(!start && isrecord)
