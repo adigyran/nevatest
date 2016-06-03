@@ -266,7 +266,7 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
             }
            if(!(firstpoints==null) && !(secondpoints==null)) {
                GPSPathlist testlist = new GPSPathlist();
-               testlist.setGPSPoints(gpsPathlistR.getrange(firstpoints, secondpoints));
+               testlist.setGPSPoints(gpsPathlistR.getrange(firstpoints, secondpoints,gpsPathlistR));
                for (GPSPathpoint readpoint : testlist.getGPSPoints()) {
                    Log.d("nevatest", "TimeChooseDialog: " + GPSPathutility.DateToString(readpoint.getPointdatetime()));
 

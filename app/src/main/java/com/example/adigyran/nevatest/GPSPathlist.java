@@ -51,12 +51,13 @@ public class GPSPathlist {
         this.GPSPoints.removeAll(removpoints);
     }
 
-    public ArrayList<GPSPathpoint> getrange(GPSPathpoint firstpoint,GPSPathpoint secondpoint)
+    public ArrayList<GPSPathpoint> getrange(GPSPathpoint firstpoint,GPSPathpoint secondpoint,GPSPathlist inptlist)
     {   int firstindex = 0;
         int secondindex = 0;
         boolean isfirstpoint =false;
         boolean issecondpoint =false;
-        if (this.GPSPoints==null){Log.d("ERROR", "getrange: list_is_empty");return null;}
+        if (inptlist==null){Log.d("ERROR", "getrange: list_is_empty");return null;}
+        if(inptlist.getGPSPoints()==null){Log.d("ERROR", "getrange: list_is_empty");return null;}
         if(firstpoint==null && secondpoint ==null){Log.d("ERROR", "getrange: points_empty");return null;}
 
         ArrayList<GPSPathpoint> returnrange =null;
@@ -81,7 +82,7 @@ public class GPSPathlist {
       //  int b=0;
         for (int b = firstindex;b<secondindex;b++)
         {
-            returnrange.add(this.GPSPoints.get(b));
+            returnrange.add(inptlist.getGPSPoints().get(b));
         }
       //  for (int i = GPSPoints.indexOf())
         //if(GPSPoints.contains(firstpoint)==false)
