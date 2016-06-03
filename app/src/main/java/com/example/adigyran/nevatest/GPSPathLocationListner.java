@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Date;
 
@@ -78,6 +80,8 @@ public class GPSPathLocationListner implements LocationListener {
                    // TextView testtext = (TextView) actmapsl.findViewById(R.id.textView);
                     Log.d("nevatest", "onLocationChanged: "+String.valueOf(location.getLatitude() + " " + location.getLatitude()+" "+location.getAccuracy()+" "+location.getSpeed()));
                     lmMap.moveCamera(CameraUpdateFactory.newLatLng(cur));
+                    LatLng mark = new LatLng(location.getLatitude(),location.getLongitude());
+                    Marker markerw = lmMap.addMarker(new MarkerOptions().position(mark).draggable(false));
                 }
 
             }

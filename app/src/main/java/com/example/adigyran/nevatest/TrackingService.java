@@ -88,8 +88,10 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
         {
             if(!(output.getGPSPoints()==null))
             {
+                mMap.clear();
                 for(GPSPathpoint pointr:output.getGPSPoints())
                 {
+
                     LatLng mark = new LatLng(pointr.getPLatitude(),pointr.getPLongitude());
                     Marker markerw = mMap.addMarker(new MarkerOptions().position(mark).draggable(false));
                 }
@@ -172,7 +174,7 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
             gpsPathLocationListner.setActmapsl(actmaps);
             LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 35000, 1, gpsPathLocationListner);
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 2, gpsPathLocationListner);
                 //if (locationGPS == null) {
                  //   cur_lat = locationNet.getLatitude();
                 //    cur_long = locationNet.getLongitude();
