@@ -41,6 +41,7 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
     private GoogleApiClient mGoogleApiClient = null;
     private GoogleMap mMap = null;
     MapsActivity actmaps;
+
     boolean pointsloaded = false;
     GPSPathLocationListner gpsPathLocationListner = null;
 
@@ -246,16 +247,7 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
                         Log.d("nevatest", "TimeChooseDialog: "+GPSPathutility.DateToString(readpoint.getPointdatetime()));
                         pointdates.add(GPSPathutility.DateToString(readpoint.getPointdatetime()));
                     }
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                            android.R.layout.simple_list_item_1, pointdates);
-                    AlertDialog.Builder builder = new AlertDialog.Builder(actmaps.getBaseContext());
-                    builder.setTitle("Choose first date").setAdapter(adapter,new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // The 'which' argument contains the index position
-                            // of the selected item
-                        }
-                    });
-                    builder.create().show();
+                    int chosen =  actmaps.Firstpointchoose(pointdates);
 
 
                 }
