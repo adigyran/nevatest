@@ -116,5 +116,6 @@ public class GPSPathLocationListner implements LocationListener {
     public void onProviderDisabled(String provider) {
         Log.d(TAG, "onProviderDisabled: "+provider);
 
+
     }
 }

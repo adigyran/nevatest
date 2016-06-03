@@ -170,6 +170,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             case R.id.action_remove_base:
                this.deleteDatabase(GPSPathDbghelper.DATABASE_NAME);
                 return true;
+            case R.id.action_choise_time:
+                Tracking.TimeChooseDialog();
+                return true;
 
         }
         return super.onOptionsItemSelected(item);

@@ -34,7 +34,7 @@ public  class GPSWriteTask extends AsyncTask<GPSPathDbghelper,Integer,Integer>{
         try {
 
             for (GPSPathpoint wrtpoint : gpswritelist.getGPSPoints()) {
-                Log.d("nevatest", "doInBackground: " + String.valueOf(wrtpoint.getPointdatetime()));
+                Log.d("nevatest", "doInBackground: " + String.valueOf(wrtpoint.getPointdatetime()+" "+GPSPathutility.DateToString(wrtpoint.getPointdatetime())));
                 values.put(GPSPathContract.GPSPathEntry.COLUMN_NAME_DATETIME, GPSPathutility.DateToString(wrtpoint.getPointdatetime()));
                 values.put(GPSPathContract.GPSPathEntry.COLUMN_NAME_LAT, wrtpoint.getPLatitude());
                 values.put(GPSPathContract.GPSPathEntry.COLUMN_NAME_LONG, wrtpoint.getPLongitude());

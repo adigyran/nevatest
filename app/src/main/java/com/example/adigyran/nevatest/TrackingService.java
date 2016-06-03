@@ -33,9 +33,11 @@ import java.util.Date;
 public class TrackingService extends Service implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, AsyncResponse {
     private final IBinder TRKBinder = new LocalBinder();
     private  GPSPathlist gpsPathlist;
+    private  GPSPathlist gpsPathlistR;
     private GoogleApiClient mGoogleApiClient = null;
     private GoogleMap mMap = null;
     MapsActivity actmaps;
+    boolean pointsloaded = false;
     GPSPathLocationListner gpsPathLocationListner = null;
 
 
@@ -88,12 +90,16 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
         {
             if(!(output.getGPSPoints()==null))
             {
+                gpsPathlistR = output;
+                pointsloaded = true;
                 mMap.clear();
+                //output.getrange()
                 for(GPSPathpoint pointr:output.getGPSPoints())
                 {
 
                     LatLng mark = new LatLng(pointr.getPLatitude(),pointr.getPLongitude());
                     Marker markerw = mMap.addMarker(new MarkerOptions().position(mark).draggable(false));
+
                 }
             }
         }
@@ -140,6 +146,7 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
     }
     }
     public void Record(boolean isrecord, GoogleMap mMap) {
+        pointsloaded =false;
         this.mMap = mMap;
         double cur_lat = 0;
         double cur_long = 0;
@@ -219,6 +226,22 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
                 //    });
         }
     }
+
+    public void TimeChooseDialog()
+    {
+        if(pointsloaded)
+        {
+            if(!(gpsPathlistR==null))
+            {
+                if(!(gpsPathlistR.getGPSPoints()==null))
+                {
+
+                }
+            }
+            pointsloaded=false;
+        }
+    }
+
     @Override
     public void onCreate() {
 
