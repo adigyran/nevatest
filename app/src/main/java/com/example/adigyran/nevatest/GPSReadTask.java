@@ -46,7 +46,7 @@ public  class GPSReadTask extends AsyncTask<GPSPathDbghelper,Integer,GPSPathlist
                     GPSPathContract.GPSPathEntry.COLUMN_NAME_LAT,
                     GPSPathContract.GPSPathEntry.COLUMN_NAME_LONG};
             String sortOrder =
-                    GPSPathContract.GPSPathEntry.COLUMN_NAME_DATETIME + " DESC";
+                    GPSPathContract.GPSPathEntry.COLUMN_NAME_DATETIME + " ASC";
             String selection = null;
             String[] selectionArgs = null;
             c = gpsrdb.query(
@@ -65,7 +65,8 @@ public  class GPSReadTask extends AsyncTask<GPSPathDbghelper,Integer,GPSPathlist
                 temppoint.setPLatitude(c.getDouble(c.getColumnIndex(GPSPathContract.GPSPathEntry.COLUMN_NAME_LAT)));
                 temppoint.setPLongitude(c.getDouble(c.getColumnIndex(GPSPathContract.GPSPathEntry.COLUMN_NAME_LONG)));
 
-               temppoint.setPointdatetime(GPSPathutility.StringToDate(c.getString(c.getColumnIndex(GPSPathContract.GPSPathEntry.COLUMN_NAME_DATETIME))));
+               //temppoint.setPointdatetime(GPSPathutility.StringToDate(c.getString(c.getColumnIndex(GPSPathContract.GPSPathEntry.COLUMN_NAME_DATETIME))));
+                temppoint.setPointdatetime(GPSPathutility.LongToDate(c.getLong(c.getColumnIndex(GPSPathContract.GPSPathEntry.COLUMN_NAME_DATETIME))));
                 gpsreadlist.addGPSPoint(temppoint);
                 //gpsreadlist.addGPSPoint(new GPSPathpoint().setId(c.getInt(c.getColumnIndex(GPSPathContract.GPSPathEntry._ID))));
 

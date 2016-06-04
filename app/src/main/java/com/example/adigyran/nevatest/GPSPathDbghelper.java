@@ -10,7 +10,7 @@ import com.example.adigyran.nevatest.GPSPathContract;
  */
 public class GPSPathDbghelper extends SQLiteOpenHelper {
     private static final String TEXT_TYPE = " TEXT";
-    private static final String DATETIME_TYPE = " TIMESTAMP";
+    private static final String DATETIME_TYPE = " BIGINTEGER";
     private static final String DOUBLE_TYPE = " DOUBLE";
     private static final String COMMA_SEP = ",";
     private static final String SQL_CREATE_ENTRIES =
@@ -36,8 +36,8 @@ public class GPSPathDbghelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // This database is only a cache for online data, so its upgrade policy is
         // to simply to discard the data and start over
-       // db.execSQL(SQL_DELETE_ENTRIES);
-        //onCreate(db);
+       db.execSQL(SQL_DELETE_ENTRIES);
+       onCreate(db);
     }
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
      //   onUpgrade(db, oldVersion, newVersion);

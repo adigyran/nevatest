@@ -29,6 +29,25 @@ public final class GPSPathutility {
         }
         return returndate;
     }
+    public static long DateToLong(Date imptd)
+    {
+
+        long returndate=0;
+        if(!(imptd==null))
+        {
+           // SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+            try {
+
+               // returndate = dateFormat.format(imptd);
+                imptd.getTime();
+
+            } catch (ParseException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        return returndate;
+    }
     public static Date StringToDate(String impts)
     {
         Date returnd = new Date();
@@ -42,6 +61,23 @@ public final class GPSPathutility {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             } catch (java.text.ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return returnd;
+    }
+    public static Date LongToDate(long impts)
+    {
+        Date returnd = new Date();
+        if(!(impts ==0))
+        {
+           // SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+            try {
+             //   returnd = format.parse(impts);
+                returnd = new Date(impts);
+
+            } catch (ParseException e) {
+                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }

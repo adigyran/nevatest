@@ -60,12 +60,12 @@ public class GPSPathlist {
         if(inptlist.getGPSPoints()==null){Log.d("ERROR", "getrange: list_is_empty");return null;}
         if(firstpoint==null && secondpoint ==null){Log.d("ERROR", "getrange: points_empty");return null;}
 
-        ArrayList<GPSPathpoint> returnrange =null;
+        ArrayList<GPSPathpoint> returnrange =new ArrayList<GPSPathpoint>();
         if(firstpoint == null)
         {Log.d("ERROR", "getrange: firstpoint_not_set");return null;}
         if(secondpoint == null)
         {Log.d("ERROR", "getrange: secondpoint_not_set");return null;}
-        for (GPSPathpoint GPSpoint:this.GPSPoints) {  //Checking contain first point and second in list and get their indexes
+        for (GPSPathpoint GPSpoint:inptlist.getGPSPoints()) {  //Checking contain first point and second in list and get their indexes
            // if (!GPSpoint.getSubtitle().equals(firstpoint.getSubtitle())){Log.d("ERROR", "getrange: firstpoint_not_in_list");return null;}
             //else {firstindex = GPSPoints.indexOf(GPSpoint);}
            // if (!GPSpoint.getSubtitle().equals(secondpoint.getSubtitle())){Log.d("ERROR", "getrange: secondpoint_not_in_list");return null;}

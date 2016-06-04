@@ -155,6 +155,7 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
     public void Record(boolean isrecord, GoogleMap mMap) {
         pointsloaded =false;
         this.mMap = mMap;
+        mMap.clear();
         double cur_lat = 0;
         double cur_long = 0;
         if(isrecord) {
@@ -268,7 +269,7 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
                GPSPathlist testlist = new GPSPathlist();
                testlist.setGPSPoints(gpsPathlistR.getrange(firstpoints, secondpoints,gpsPathlistR));
                for (GPSPathpoint readpoint : testlist.getGPSPoints()) {
-                   Log.d("nevatest", "TimeChooseDialog: " + GPSPathutility.DateToString(readpoint.getPointdatetime()));
+                   Log.d("nevatest", "Chosensecond: " + GPSPathutility.DateToString(readpoint.getPointdatetime()));
 
                }
            }
