@@ -39,7 +39,7 @@ public final class GPSPathutility {
             try {
 
                // returndate = dateFormat.format(imptd);
-                imptd.getTime();
+                returndate = imptd.getTime();
 
             } catch (ParseException e) {
                 // TODO Auto-generated catch block
