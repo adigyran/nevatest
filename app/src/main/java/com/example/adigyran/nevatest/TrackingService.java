@@ -45,6 +45,7 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
     GPSPathpoint secondpoints =null;
     List<String> pointdates = null;
     boolean pointsloaded = false;
+    boolean isrecord =false;
     GPSPathLocationListner gpsPathLocationListner = null;
 
 
@@ -130,9 +131,9 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
     {
 
         Log.i("Ff", "StopRecording: ");
-        if(isrecord)
+        if(this.isrecord)
         {
-            isrecord=false;
+            this.isrecord=false;
             if(!(gpsPathLocationListner==null))
             {
                 gpsPathLocationListner.setRecording(false);
@@ -148,6 +149,7 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
                     GPSWriteTask testwr = new GPSWriteTask(helper, gpsPathlist);
                     //gpsPathlist.removeGPSPoints(gpsPathlist.getGPSPoints());
                     testwr.execute();
+                    this.gpsPathlist=null;
                 }
             }
     }
@@ -177,6 +179,7 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
             }
                 Location locationGPS = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                 Location locationNet = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            this.isrecord=true;
             if(gpsPathLocationListner==null) {
                 gpsPathLocationListner = new GPSPathLocationListner();
             }
