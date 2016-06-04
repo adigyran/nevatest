@@ -59,7 +59,7 @@ public  class GPSReadTask extends AsyncTask<GPSPathDbghelper,Integer,GPSPathlist
                     sortOrder                                 // The sort order
             );
             while (c.moveToNext()) {
-                Log.d("nevatest", "doInBackground: " + String.valueOf(c.getString(c.getColumnIndex(GPSPathContract.GPSPathEntry.COLUMN_NAME_DATETIME))));
+                Log.d("nevatest", "doInBackground: " + String.valueOf(c.getLong(c.getColumnIndex(GPSPathContract.GPSPathEntry.COLUMN_NAME_DATETIME))));
                 GPSPathpoint temppoint = new GPSPathpoint();
                 temppoint.setId(c.getInt(c.getColumnIndex(GPSPathContract.GPSPathEntry._ID)));
                 temppoint.setPLatitude(c.getDouble(c.getColumnIndex(GPSPathContract.GPSPathEntry.COLUMN_NAME_LAT)));

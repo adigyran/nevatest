@@ -192,7 +192,7 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
             gpsPathLocationListner.setActmapsl(actmaps);
             LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 35000, 10, gpsPathLocationListner);
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, gpsPathLocationListner);
                 //if (locationGPS == null) {
                  //   cur_lat = locationNet.getLatitude();
                 //    cur_long = locationNet.getLongitude();
@@ -265,13 +265,26 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
                 }
 
             }
+            if(firstpoints == null)
+            {
+                firstpoints = new GPSPathpoint();
+                firstpoints.setPointdatetime(GPSPathutility.StringToDate(pointdates.get(0)));
+
+            }
+            if(secondpoints ==null)
+            {
+                secondpoints = new GPSPathpoint();
+                secondpoints.setPointdatetime(GPSPathutility.StringToDate(pointdates.get(pointdates.size())));
+            }
            if(!(firstpoints==null) && !(secondpoints==null)) {
                GPSPathlist testlist = new GPSPathlist();
                testlist.setGPSPoints(gpsPathlistR.getrange(firstpoints, secondpoints,gpsPathlistR));
-               for (GPSPathpoint readpoint : testlist.getGPSPoints()) {
-                   Log.d("nevatest", "Chosensecond: " + GPSPathutility.DateToString(readpoint.getPointdatetime()));
+                if(!(testlist.getGPSPoints()==null)) {
+                    for (GPSPathpoint readpoint : testlist.getGPSPoints()) {
+                        Log.d("nevatest", "Chosensecond: " + GPSPathutility.DateToString(readpoint.getPointdatetime()));
 
-               }
+                    }
+                }
            }
         }
     }
