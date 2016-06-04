@@ -249,9 +249,9 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
                     firstpoints.setPointdatetime(gpsPathlistR.getGPSPoints().get(chosenn).getPointdatetime());
                     for(int i=0;i<chosenn;i++)
                     {
-                        pointdates.set(i,getString(R.string.choose_second));
+                        pointdates.set(i,getString(R.string.choose_second_error));
                     }
-                    actmaps.pointdatachoose(pointdates, "Choose second point", false);
+                    actmaps.pointdatachoose(pointdates, getString(R.string.choose_second_point), false);
                 } catch (NullPointerException e) {
 
                 }
@@ -315,7 +315,7 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
                         pointdates.add(GPSPathutility.DateToString(readpoint.getPointdatetime()));
                     }
 
-                    actmaps.pointdatachoose(pointdates,"Choose first point",true);
+                    actmaps.pointdatachoose(pointdates,getString(R.string.choose_first_point),true);
                     //int chosenf =  actmaps.pointdatachoose(pointdates,"Choose first point");
                    // int chosens = actmaps.pointdatachoose(pointdates,"Choose second point");
                     //if(!(chosenf==-1))
