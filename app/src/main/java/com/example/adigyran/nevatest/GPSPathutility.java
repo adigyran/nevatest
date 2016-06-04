@@ -17,7 +17,7 @@ public final class GPSPathutility {
         String returndate="";
         if(!(imptd==null))
         {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss''");
             try {
 
                 returndate = dateFormat.format(imptd);
@@ -53,7 +53,7 @@ public final class GPSPathutility {
         Date returnd = new Date();
         if(!(impts == null))
         {
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss''");
             try {
                 returnd = format.parse(impts);
 
