@@ -3,7 +3,7 @@
     <string name="title_activity_maps">Map</string>
     <string name="action_start_rec">Запись</string>
     <string name="action_stop_rec">Стоп</string>
-    <string name="action_play_rec">Воспроизведение</string>
+    <string name="action_play_rec">Загрузка из базы</string>
     <string name="action_choise_time">Выбрать период</string>
     <string name="action_remove_base">Очистить базу</string>
 

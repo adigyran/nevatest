@@ -287,7 +287,7 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
                     for (GPSPathpoint readpoint : testlist.getGPSPoints()) {
                         Log.d("nevatest", "Chosensecond: " + GPSPathutility.DateToString(readpoint.getPointdatetime()));
                         LatLng mark = new LatLng(readpoint.getPLatitude(),readpoint.getPLongitude());
-                        Marker markerw = mMap.addMarker(new MarkerOptions().position(mark).draggable(false));
+                        Marker markerw = mMap.addMarker(new MarkerOptions().position(mark).draggable(false).title(String.valueOf(GPSPathutility.DateToString(readpoint.getPointdatetime()))));
 
                     }
                 }
