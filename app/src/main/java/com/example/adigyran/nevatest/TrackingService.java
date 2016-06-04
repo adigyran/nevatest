@@ -195,7 +195,7 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
             gpsPathLocationListner.setActmapsl(actmaps);
             LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 20000, 5, gpsPathLocationListner);
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 20, gpsPathLocationListner);
                 //if (locationGPS == null) {
                  //   cur_lat = locationNet.getLatitude();
                 //    cur_long = locationNet.getLongitude();

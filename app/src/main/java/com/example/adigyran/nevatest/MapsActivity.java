@@ -132,6 +132,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //mGoogleApiClient.disconnect();
         if (mBound)
         {
+            Tracking.StopRecording(true);
+
             unbindService(mConnection);
             mBound = false;
         }
