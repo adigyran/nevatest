@@ -102,13 +102,13 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
                 pointsloaded = true;
                 mMap.clear();
                 //output.getrange()
-                for(GPSPathpoint pointr:output.getGPSPoints())
-                {
+                //for(GPSPathpoint pointr:output.getGPSPoints())
+                //{
 
-                    LatLng mark = new LatLng(pointr.getPLatitude(),pointr.getPLongitude());
-                    Marker markerw = mMap.addMarker(new MarkerOptions().position(mark).draggable(false));
+                   // LatLng mark = new LatLng(pointr.getPLatitude(),pointr.getPLongitude());
+                   // Marker markerw = mMap.addMarker(new MarkerOptions().position(mark).draggable(false));
 
-                }
+                //}
             }
         }
     }
@@ -195,7 +195,7 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
             gpsPathLocationListner.setActmapsl(actmaps);
             LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, gpsPathLocationListner);
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 20000, 5, gpsPathLocationListner);
                 //if (locationGPS == null) {
                  //   cur_lat = locationNet.getLatitude();
                 //    cur_long = locationNet.getLongitude();
@@ -246,7 +246,7 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
             if (!(chosenn == -1)) {
                 try {
                     firstpoints = new GPSPathpoint();
-                    firstpoints.setPointdatetime(GPSPathutility.StringToDate(pointdates.get(chosenn)));
+                    firstpoints.setPointdatetime(gpsPathlistR.getGPSPoints().get(chosenn).getPointdatetime());
                 } catch (NullPointerException e) {
 
                 }
@@ -262,7 +262,7 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
             if (!(chosenn == -1)) {
                 try {
                     secondpoints = new GPSPathpoint();
-                    secondpoints.setPointdatetime(GPSPathutility.StringToDate(pointdates.get(chosenn)));
+                    secondpoints.setPointdatetime(gpsPathlistR.getGPSPoints().get(chosenn).getPointdatetime());
                 } catch (NullPointerException e) {
 
                 }
@@ -271,20 +271,23 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
             if(firstpoints == null)
             {
                 firstpoints = new GPSPathpoint();
-                firstpoints.setPointdatetime(GPSPathutility.StringToDate(pointdates.get(0)));
+                firstpoints.setPointdatetime(gpsPathlistR.getGPSPoints().get(0).getPointdatetime());
 
             }
             if(secondpoints ==null)
             {
                 secondpoints = new GPSPathpoint();
-                secondpoints.setPointdatetime(GPSPathutility.StringToDate(pointdates.get(pointdates.size())));
+                secondpoints.setPointdatetime(gpsPathlistR.getGPSPoints().get(gpsPathlistR.getGPSPoints().size()).getPointdatetime());
             }
            if(!(firstpoints==null) && !(secondpoints==null)) {
                GPSPathlist testlist = new GPSPathlist();
                testlist.setGPSPoints(gpsPathlistR.getrange(firstpoints, secondpoints,gpsPathlistR));
                 if(!(testlist.getGPSPoints()==null)) {
+                    mMap.clear();
                     for (GPSPathpoint readpoint : testlist.getGPSPoints()) {
                         Log.d("nevatest", "Chosensecond: " + GPSPathutility.DateToString(readpoint.getPointdatetime()));
+                        LatLng mark = new LatLng(readpoint.getPLatitude(),readpoint.getPLongitude());
+                        Marker markerw = mMap.addMarker(new MarkerOptions().position(mark).draggable(false));
 
                     }
                 }

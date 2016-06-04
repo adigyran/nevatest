@@ -81,7 +81,7 @@ public class GPSPathlist {
             {Log.d("ERROR", "getrange: points_not_in_list");return null;}
         }
       //  int b=0;
-        for (int b = firstindex;b<secondindex;b++)
+        for (int b = firstindex;b<=secondindex;b++)
         {
             returnrange.add(inptlist.getGPSPoints().get(b));
         }
