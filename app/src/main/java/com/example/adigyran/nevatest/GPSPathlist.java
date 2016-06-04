@@ -70,10 +70,11 @@ public class GPSPathlist {
             //else {firstindex = GPSPoints.indexOf(GPSpoint);}
            // if (!GPSpoint.getSubtitle().equals(secondpoint.getSubtitle())){Log.d("ERROR", "getrange: secondpoint_not_in_list");return null;}
 
+            Log.d("nevatest", "getrange: "+String.valueOf(GPSpoint.getPointdatetime().getTime())+" "+firstpoint.getPointdatetime().getTime());
             if((GPSpoint.getPointdatetime().compareTo(firstpoint.getPointdatetime())==0)&& isfirstpoint==false)
-            { isfirstpoint = true; firstindex = this.GPSPoints.indexOf(GPSpoint);}
+            { isfirstpoint = true; firstindex = inptlist.getGPSPoints().indexOf(GPSpoint);}
             if((GPSpoint.getPointdatetime().compareTo(secondpoint.getPointdatetime())==0)&& issecondpoint==false)
-            { issecondpoint = true; secondindex = this.GPSPoints.indexOf(GPSpoint);}
+            { issecondpoint = true; secondindex = inptlist.getGPSPoints().indexOf(GPSpoint);}
         }
         if (isfirstpoint ==false || issecondpoint ==false)
         {
