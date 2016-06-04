@@ -241,12 +241,17 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
     public void Chosenfirst(int chosenn)
     {
         if(!(pointdates==null)) {
-            actmaps.pointdatachoose(pointdates, "Choose second point", false);
+
 
             if (!(chosenn == -1)) {
                 try {
                     firstpoints = new GPSPathpoint();
                     firstpoints.setPointdatetime(gpsPathlistR.getGPSPoints().get(chosenn).getPointdatetime());
+                    for(int i=0;i<chosenn;i++)
+                    {
+                        pointdates.set(i,getString(R.string.choose_second));
+                    }
+                    actmaps.pointdatachoose(pointdates, "Choose second point", false);
                 } catch (NullPointerException e) {
 
                 }
@@ -348,7 +353,7 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
 
                 }
             }
-            pointsloaded=false;
+            //pointsloaded=false;
         }
     }
 

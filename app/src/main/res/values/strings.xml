@@ -6,5 +6,7 @@
     <string name="action_play_rec">Загрузка из базы</string>
     <string name="action_choise_time">Выбрать период</string>
     <string name="action_remove_base">Очистить базу</string>
+    <string name="choose_second">Нельзя выбрать предыдущие</string>
+
 
 </resources>
