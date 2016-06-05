@@ -2,6 +2,8 @@ package com.example.adigyran.nevatest;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -49,6 +51,7 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
     boolean pointsloaded = false;
     boolean isrecord =false;
     GPSPathLocationListner gpsPathLocationListner = null;
+    private final String TAG = "nevatest";
 
 
 
@@ -56,6 +59,40 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
 
     }
 
+    @Override
+    public void onLowMemory() {
+        Log.d(TAG, "onLowMemory: ");
+
+        //StopRecording(true);
+        super.onLowMemory();
+    }
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        Log.d(TAG, "onTaskRemoved: ");
+       // StopRecording(true);
+        super.onTaskRemoved(rootIntent);
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        Log.d(TAG, "onTrimMemory: ");
+        //StopRecording(true);
+        super.onTrimMemory(level);
+    }
+
+    @Override
+    public void onRebind(Intent intent) {
+        Log.d(TAG, "onRebind: ");
+        //StopRecording(true);
+    }
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        Log.d(TAG, "onUnbind: ");
+        //StopRecording(true);
+        return super.onUnbind(intent);
+    }
 
     @Override
     public IBinder onBind(Intent intent) {

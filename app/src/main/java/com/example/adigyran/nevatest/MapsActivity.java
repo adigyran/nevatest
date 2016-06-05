@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
@@ -62,6 +63,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mBound = false;
         }
     };
+    private void buildAlertMessageNoGps() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,9 +112,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         UiSettings settingsm =  mMap.getUiSettings();
         settingsm.setMyLocationButtonEnabled(true);
         settingsm.setZoomControlsEnabled(true);
-        Intent intent  = new Intent(this,TrackingService.class);
+        final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
 
-        bindService(intent,mConnection,Context.BIND_AUTO_CREATE);
+        if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+            buildAlertMessageNoGps();
+        }
+        Intent Trackingintent  = new Intent(this,TrackingService.class);
+        startService(Trackingintent);
+        bindService(Trackingintent,mConnection,Context.BIND_AUTO_CREATE);
 //        Tracking.setActmaps(this);
         // Add a marker in Sydney and move the camera
         //LatLng sydney = new LatLng(-34, 151);
@@ -117,6 +140,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -130,13 +154,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         super.onStop();
         //mGoogleApiClient.disconnect();
-        if (mBound)
-        {
-            Tracking.StopRecording(true);
+       // if (mBound)
+        //{
+         //   Tracking.StopRecording(true);
 
-            unbindService(mConnection);
-            mBound = false;
-        }
+           // unbindService(mConnection);
+           // mBound = false;
+        //}
     }
 
     @Override
