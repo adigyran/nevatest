@@ -51,6 +51,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private TrackingService Tracking = null;
     private CountDownTimer GPSTimer = null;
     private boolean isrecord = false;
+    private Intent Trackingintent;
     private boolean mBound = false;
     private ServiceConnection mConnection = new ServiceConnection() {
 
@@ -86,6 +87,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         final AlertDialog alert = builder.create();
         alert.show();
     }
+
+    @Override
+    protected void onPause() {
+        Log.d("nevatest", "onPause: ");
+        super.onStop();
+        //mGoogleApiClient.disconnect();
+        if (mBound)
+        {
+            //Tracking.StopRecording(true);
+
+            unbindService(mConnection);
+            mBound = false;
+        }
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        Log.d("nevatest", "onPause: ");
+        super.onStop();
+        //mGoogleApiClient.disconnect();
+        if (!mBound && !(Trackingintent==null))
+        {
+            //Tracking.StopRecording(true);
+
+            bindService(Trackingintent,mConnection,Context.BIND_AUTO_CREATE);
+            mBound = true;
+        }
+        super.onPause();
+        super.onResume();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,7 +152,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         settingsm.setMyLocationButtonEnabled(true);
         settingsm.setZoomControlsEnabled(true);
 
-        Intent Trackingintent  = new Intent(this,TrackingService.class);
+        Trackingintent  = new Intent(this,TrackingService.class);
         startService(Trackingintent);
         bindService(Trackingintent,mConnection,Context.BIND_AUTO_CREATE);
 //        Tracking.setActmaps(this);
@@ -156,13 +189,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d("nevatest", "onStop: ");
         super.onStop();
         //mGoogleApiClient.disconnect();
-       // if (mBound)
-        //{
-         //   Tracking.StopRecording(true);
+        if (mBound)
+        {
+            //Tracking.StopRecording(true);
 
-           // unbindService(mConnection);
-           // mBound = false;
-        //}
+           unbindService(mConnection);
+           mBound = false;
+        }
     }
 
     @Override
