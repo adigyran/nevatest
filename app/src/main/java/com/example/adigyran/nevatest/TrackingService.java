@@ -63,14 +63,14 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
     public void onLowMemory() {
         Log.d(TAG, "onLowMemory: ");
 
-        //StopRecording(true);
+        StopRecording(true);
         super.onLowMemory();
     }
 
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         Log.d(TAG, "onTaskRemoved: ");
-       // StopRecording(true);
+       StopRecording(true);
         super.onTaskRemoved(rootIntent);
     }
 
