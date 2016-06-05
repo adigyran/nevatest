@@ -29,6 +29,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -289,12 +291,17 @@ public class TrackingService extends Service implements GoogleApiClient.Connecti
                testlist.setGPSPoints(gpsPathlistR.getrange(firstpoints, secondpoints,gpsPathlistR));
                 if(!(testlist.getGPSPoints()==null)) {
                     mMap.clear();
+                    PolylineOptions rectOptions = new PolylineOptions();
                     for (GPSPathpoint readpoint : testlist.getGPSPoints()) {
                         Log.d("nevatest", "Chosensecond: " + GPSPathutility.DateToString(readpoint.getPointdatetime()));
                         LatLng mark = new LatLng(readpoint.getPLatitude(),readpoint.getPLongitude());
-                        Marker markerw = mMap.addMarker(new MarkerOptions().position(mark).draggable(false).title(String.valueOf(GPSPathutility.DateToString(readpoint.getPointdatetime()))));
+                        // Instantiates a new Polyline object and adds points to define a rectangle
+                        rectOptions.add(mark);
+
+                        //Marker markerw = mMap.addMarker(new MarkerOptions().position(mark).draggable(false).title(String.valueOf(GPSPathutility.DateToString(readpoint.getPointdatetime()))));
 
                     }
+                    Polyline polyline = mMap.addPolyline(rectOptions);
                 }
            }
         }
