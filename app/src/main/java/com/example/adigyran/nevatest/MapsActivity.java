@@ -91,7 +91,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onPause() {
         Log.d("nevatest", "onPause: ");
-        super.onStop();
+       // super.onStop();
         //mGoogleApiClient.disconnect();
         if (mBound)
         {
@@ -106,7 +106,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onResume() {
         Log.d("nevatest", "onPause: ");
-        super.onStop();
+      //  super.onStop();
         //mGoogleApiClient.disconnect();
         if (!mBound && !(Trackingintent==null))
         {
@@ -115,7 +115,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             bindService(Trackingintent,mConnection,Context.BIND_AUTO_CREATE);
             mBound = true;
         }
-        super.onPause();
+       // super.onPause();
         super.onResume();
     }
 
